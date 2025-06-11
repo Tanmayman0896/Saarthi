@@ -54,7 +54,7 @@ const Footer = () => {
 //     </div>
 //     </div>
 <>
-<footer className="footer p-10 bg-lavender text-base-content">
+<footer className="footer p-10 bg-black text-white">
   <div>
     <span className="footer-title">Services</span> 
     <a className="hover:bg-lavender-dark" href='/coursecat'>Courses</a> 
@@ -75,7 +75,7 @@ const Footer = () => {
     <a className="hover:bg-lavender-dark" href=''>Cookie policy</a>
   </div>
 </footer> 
-<footer className="footer px-10 py-4 border-t bg-lavender text-base-content border-lavender-dark">
+<footer className="footer px-10 py-4 border-t bg-black text-white border-lavender-dark">
   <div className="items-center grid-flow-col">
     <img className="h-8" src={logo} alt='logo'/>
     <p>Empowering Abilities,<br/> Unlocking Potential: Education for All</p><img className="h-8" src={logo1} alt='logo mirror'/>

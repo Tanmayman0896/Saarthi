@@ -35,12 +35,7 @@ export default function SubjectCards() {
         "English is a global language, and it's essential for communication, literature, and many other aspects of life.",
       imageSrc: eng,
     },
-    {
-      name: "Hindi",
-      description:
-        "Hindi, as one of India's official languages, plays a crucial role in fostering cultural identity and communication among its diverse population.",
-      imageSrc: hin,
-    },
+    
   ];
 
   return (

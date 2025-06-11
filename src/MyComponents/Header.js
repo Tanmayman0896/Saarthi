@@ -52,7 +52,7 @@ export default function Navbar({ fixed }) {
 
   return (
     <>
-      <Disclosure as="nav" className="bg-lavender">
+      <Disclosure as="nav" className="bg-black">
         {({ open }) => (
           <>
             <div className="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">

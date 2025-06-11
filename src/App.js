@@ -28,7 +28,7 @@ import Popup from './MyComponents/popup'
 import Banner from './MyComponents/banner'
 import Profile from './MyPages/profile'
 import Science from './MyPages/Science'
-import Math from './MyPages/Math'
+import Math from './MyPages/mathematics'
 import English from './MyPages/English'
 import vol from "./images/volume.png"
 import VoiceNav from "./MyComponents/VoiceNav"
@@ -120,7 +120,7 @@ function App() {
     <Route path="/profile" element={<Profile/>}/>
     <Route path="/banner" element={<Banner/>}/>
     <Route path="/science" element={<Science/>}/>
-    <Route path="/math" element={<Math/>}/>
+    <Route path="/mathematics" element={<Math/>}/>
     <Route path="/english" element={<English/>}/>
   
   </Routes>
