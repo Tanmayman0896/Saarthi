@@ -1,30 +1,26 @@
 import React from "react";
 const people = [
     {
-      name: 'Aayush Talreja',
+      name: 'Tanmoy Mandal',
       role: 'Founder / CEO',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      imageAlt: 'Portrait of Tanmoy Mandal',
     },
     {
-      name: 'Mansi Bellani',
+      name: 'Sarthak Routray',
       role: 'Co-Founder / CIO',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      imageAlt: 'Portrait of Sarthak Routray',
     },
     {
-      name: 'Niranjan Yeole',
+      name: 'Sarthak Routray',
       role: 'CFO',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      imageAlt: 'Portrait of Sarthak Routray',
     },
     {
-      name: 'Anuj Bagad',
+      name: 'Tanmoy Mandal',
       role: 'COO',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      imageAlt: 'Portrait of Tanmoy Mandal',
     },
-    // More people...
+    
   ]
   
   export default function leaders() {
@@ -42,7 +38,9 @@ const people = [
             {people.map((person) => (
               <li key={person.name}>
                 <div className="flex items-center gap-x-6">
-                  <img className="h-16 w-16 rounded-full" src={person.imageUrl} alt="" />
+                  <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+                    {person.imageAlt}
+                  </div>
                   <div>
                     <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">{person.name}</h3>
                     <p className="text-sm font-semibold leading-6 text-indigo-600">{person.role}</p>
