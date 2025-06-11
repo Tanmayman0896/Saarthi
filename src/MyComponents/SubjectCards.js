@@ -46,7 +46,7 @@ export default function SubjectCards() {
   return (
     <>
       <Toaster />
-      <div className="pt-6 pb-12 bg-gray-300">
+      <div className="pt-6 pb-12 bg-lavender">
         {subjects.map((subject) => (
           <div key={subject.name} className="container flex flex-col mx-auto mt-4 w-96 lg:w-4/5">
             <div className="flex flex-col mx-2 overflow-hidden bg-white rounded-lg shadow-xl hover:shadow-sm hover:cursor-pointer md:flex-row w-100">
@@ -63,11 +63,11 @@ export default function SubjectCards() {
                 </h3>
                 <p className="mt-1">{subject.description}</p>
                 <button
-                  className="w-[80%] lg:w-[30%] inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-[#212427] rounded-lg group bg-gradient-to-br from-[#A2DFD9] to-[#CB88FF] group-hover:from-[#A2DFD9] group-hover:to-[#CB88FF] hover:text-[#EFEEE9] focus:ring-2 focus:outline-none focus:ring-[#EFEEE9]"
+                  className="w-[80%] lg:w-[30%] inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-[#212427] rounded-lg group bg-gradient-to-br from-lavender to-lavender-dark group-hover:from-lavender group-hover:to-lavender-dark hover:text-[#EFEEE9] focus:ring-2 focus:outline-none focus:ring-[#EFEEE9]"
                   type="button"
                   onClick={() => navigate(`/${subject.name.toLowerCase()}`)}
                 >
-                  <span className="px-5 py-2.5 transition-all ease-in duration-75 bg-transparent dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                  <span className="px-5 py-2.5 transition-all ease-in duration-75 bg-transparent dark:bg-lavender-dark rounded-md group-hover:bg-opacity-0">
                     GO TO COURSE
                   </span>
                 </button>

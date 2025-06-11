@@ -12,7 +12,7 @@ const Footer = () => {
 //               <img className="h-8" src={logo} alt='logo'/>
 //             <p className='block ml-5 mt-2'>
 //             Empowering Abilities, Unlocking Potential: Education for All! <br></br>
-//             Shiksha is designed in such a way that it is accessible to students with various difficulties, like visual, auditory etc. <br></br>
+//             Saarthi is designed in such a way that it is accessible to students with various difficulties, like visual, auditory etc. <br></br>
 // </p>
 //             <div className='flex justify-start mt-4 ml-5'>
 //                 <FaFacebookSquare size={30}/>
@@ -54,28 +54,28 @@ const Footer = () => {
 //     </div>
 //     </div>
 <>
-<footer className="footer p-10 bg-base-200 text-base-content">
+<footer className="footer p-10 bg-lavender text-base-content">
   <div>
     <span className="footer-title">Services</span> 
-    <a className="hover:bg-slate-300" href='/coursecat'>Courses</a> 
-    <a className="hover:bg-slate-300" href='/'>Teaching</a> 
-    <a className="hover:bg-slate-300" href='/'>Assessments</a> 
-    <a className="hover:bg-slate-300" href='/'>Materials</a>
+    <a className="hover:bg-lavender-dark" href='/coursecat'>Courses</a> 
+    <a className="hover:bg-lavender-dark" href='/'>Teaching</a> 
+    <a className="hover:bg-lavender-dark" href='/'>Assessments</a> 
+    <a className="hover:bg-lavender-dark" href='/'>Materials</a>
   </div> 
   <div>
     <span className="footer-title">Company</span> 
-    <a className=" hover:bg-slate-300" href='/aboutus'>About us</a> 
-    <a className="hover:bg-slate-300" href=''>Contact</a> 
-    <a className="hover:bg-slate-300" href='/popup'>Guide</a> 
+    <a className="hover:bg-lavender-dark" href='/aboutus'>About us</a> 
+    <a className="hover:bg-lavender-dark" href=''>Contact</a> 
+    <a className="hover:bg-lavender-dark" href='/popup'>Guide</a> 
   </div> 
   <div>
     <span className="footer-title">Legal</span> 
-    <a className="hover:bg-slate-300" href=''>Terms of use</a> 
-    <a className="hover:bg-slate-300" href=''>Privacy policy</a> 
-    <a className="hover:bg-slate-300" href=''>Cookie policy</a>
+    <a className="hover:bg-lavender-dark" href=''>Terms of use</a> 
+    <a className="hover:bg-lavender-dark" href=''>Privacy policy</a> 
+    <a className="hover:bg-lavender-dark" href=''>Cookie policy</a>
   </div>
 </footer> 
-<footer className="footer px-10 py-4 border-t bg-base-200 text-base-content border-base-300">
+<footer className="footer px-10 py-4 border-t bg-lavender text-base-content border-lavender-dark">
   <div className="items-center grid-flow-col">
     <img className="h-8" src={logo} alt='logo'/>
     <p>Empowering Abilities,<br/> Unlocking Potential: Education for All</p><img className="h-8" src={logo1} alt='logo mirror'/>
