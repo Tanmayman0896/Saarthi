@@ -29,7 +29,7 @@ function MathCatalogue() {
                 src="https://media.licdn.com/dms/image/D4D03AQG3tgMaLVMfug/profile-displayphoto-shrink_100_100/0/1666875030217?e=1685577600&v=beta&t=vfoT736oR7cZXkuDcl9J6ZSnJIOaJzpkaJ1D-Y6qh_0"
                 alt=""
               />
-              Mansi Bellani
+              Sarthak
             </p>
             <a href="videos" class="btn btn-outline-primary">
               <Link to="/videos" class="nav-link active">
@@ -49,7 +49,7 @@ function MathCatalogue() {
             <p class="card-text p-2">12 lessons • 7 quiz</p>
             <p class="card-text p-2">
               <img className="h-30 w-10 rounded-full" src={profile} alt="" />
-              Shams Tabrez
+              Tanmoy
             </p>
             <a href="videos" class="btn btn-outline-primary">
               <Link to="/videos" class="nav-link active">

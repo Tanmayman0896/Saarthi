@@ -43,7 +43,7 @@ function NavigationItem({ item }) {
 
 export default function Navbar({ fixed }) {
   const { speak } = useSpeechSynthesis();
-  const logo = "Shiksha logo.";
+  const logo = "Saarthi logo.";
   const profile = "Profile.";
   const stats = "Your stats.";
   const settings = "Settings.";

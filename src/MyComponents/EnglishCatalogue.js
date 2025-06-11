@@ -22,7 +22,7 @@ function EnglishCatalogue() {
             <p class="card-text p-2">10 lessons • 5 quizes</p>
             <p class="card-text p-2">
               <img className="h-30 w-10 rounded-full" src={profile} alt="" />
-              Shams Tabrez
+              Sarthak
             </p>
             <a href="videos" class="btn btn-outline-primary">
               <Link to="/videos" class="nav-link active">
@@ -42,7 +42,7 @@ function EnglishCatalogue() {
             <p class="card-text p-2">10 lessons • 5 quizes</p>
             <p class="card-text p-2">
               <img className="h-30 w-10 rounded-full" src={profile} alt="" />
-              Shams Tabrez
+              Tanmoy
             </p>
             <a href="videos" class="btn btn-outline-primary">
               <Link to="/videos" class="nav-link active">
