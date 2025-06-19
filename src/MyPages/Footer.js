@@ -1,10 +1,22 @@
 import React from 'react'
-import { FaLinkedin,FaFacebookSquare,FaInstagramSquare,FaTwitterSquare } from "react-icons/fa";
+import { FaLinkedin,FaFacebookSquare,FaInstagramSquare,FaTwitterSquare, FaGlobe } from "react-icons/fa";
 import {Link,NavLink} from "react-router-dom"
 import logo from '.././images/blacklogo.png'
 import logo1 from '.././images/blacklogomirror.png'
+import { useLanguage } from '../contexts/LanguageContext';
+import { useSpeechSynthesis } from 'react-speech-kit';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Footer = () => {
+  const { currentLanguage, languages, changeLanguage, getCurrentLanguageInfo } = useLanguage();
+  const { speak } = useSpeechSynthesis();
+  const { isDarkMode } = useTheme();
+
+  const handleLanguageChange = (languageCode) => {
+    changeLanguage(languageCode);
+    speak({ text: `Language changed to ${languages.find(lang => lang.code === languageCode)?.nativeName}` });
+  };
+
   return (
 //     <div className='bg-gray-800'>
 //     <div className='bg-gradient-to-t py-6 px-4 grid lg:grid-cols-2 gap-30 text-gray-200'>
@@ -54,7 +66,7 @@ const Footer = () => {
 //     </div>
 //     </div>
 <>
-<footer className="footer p-10 bg-black text-white">
+<footer className={`footer p-10 ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-black text-white'}`}>
   <div>
     <span className="footer-title">Services</span> 
     <a className="hover:bg-lavender-dark" href='/coursecat'>Courses</a> 
@@ -74,8 +86,33 @@ const Footer = () => {
     <a className="hover:bg-lavender-dark" href=''>Privacy policy</a> 
     <a className="hover:bg-lavender-dark" href=''>Cookie policy</a>
   </div>
-</footer> 
-<footer className="footer px-10 py-4 border-t bg-black text-white border-lavender-dark">
+  <div>
+    <span className="footer-title">Language / भाषा</span>
+    <div className="flex flex-col space-y-2">
+      {languages.map((language) => (
+        <button
+          key={language.code}
+          onClick={() => handleLanguageChange(language.code)}
+          onMouseOver={() => speak({ text: `Switch to ${language.nativeName}` })}
+          className={`flex items-center space-x-2 px-3 py-2 rounded-md text-left transition-colors ${
+            currentLanguage === language.code
+              ? 'bg-lavender-dark text-white'
+              : 'hover:bg-gray-700 hover:text-white'
+          }`}
+        >
+          <FaGlobe className="w-4 h-4" />
+          <span>{language.nativeName}</span>
+          {currentLanguage === language.code && (
+            <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
+              Active
+            </span>
+          )}
+        </button>
+      ))}
+    </div>
+  </div>
+</footer>
+<footer className={`footer px-10 py-4 border-t ${isDarkMode ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-black text-white border-lavender-dark'}`}>
   <div className="items-center grid-flow-col">
     <img className="h-8" src={logo} alt='logo'/>
     <p>Empowering Abilities,<br/> Unlocking Potential: Education for All</p><img className="h-8" src={logo1} alt='logo mirror'/>

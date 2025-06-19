@@ -1,6 +1,7 @@
 import './App.css';
 import './index.css';
 import './mic.css';
+import './i18n'; // Initialize i18n
 import Header from './MyComponents/Header';
 import Home from './MyPages/Home';
 import Hero from './MyPages/Hero';
@@ -32,6 +33,11 @@ import Math from './MyPages/mathematics'
 import English from './MyPages/English'
 import vol from "./images/volume.png"
 import VoiceNav from "./MyComponents/VoiceNav"
+import FirebaseErrorBoundary from './components/FirebaseErrorBoundary';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { inject } from '@vercel/analytics';
 inject();
 
@@ -94,38 +100,39 @@ function App() {
   const handleReset = () => {
     stopHandle();
     resetTranscript();
-  };
-
-  return (
-  
-   <Router>
-   <div className='App'>
-    <VoiceNav/>
-   <Routes>
-    <Route path="/" element={<Login/> } />
-    <Route path="/home" element={<Hero/> } />
-    <Route path="/coursecat" element={<Coursecat/>} />
-    {/* <Route path="/syllabus" element={<Syllabus/>} /> */}
-    {/* <Route path="/career" element={<Career/>} /> */}
-    <Route path="/recruiter" element={<Home/>} />
-    <Route path="/aboutus" element={<Aboutus/>} />
-    <Route path="/ngoenroll" element={<Ngoenroll/>} />
-    <Route path="/donation" element={<Donation/>} />
-    <Route path="/popup" element={<Popup/>} />
-    <Route path="/sidebarvideo" element={<Sidebarvideo/>} />
-    <Route path="/video" element={<Videos/>} />
-    <Route path="/videos" element={<Videos/>} />
-    <Route path="/login" element={<Login/>}/>
-    <Route path="/leaders" element={<Lead/>}/>
-    <Route path="/profile" element={<Profile/>}/>
-    <Route path="/banner" element={<Banner/>}/>
-    <Route path="/science" element={<Science/>}/>
-    <Route path="/mathematics" element={<Math/>}/>
-    <Route path="/english" element={<English/>}/>
-  
+  };  return (
+   <ThemeProvider>
+     <AuthProvider>
+       <LanguageProvider>
+         <FirebaseErrorBoundary>
+           <Router>
+             <div className='App'>
+              <VoiceNav/>             <Routes>
+              <Route path="/" element={<ProtectedRoute requireAuth={false}><Login/></ProtectedRoute>} />
+              <Route path="/home" element={<ProtectedRoute><Hero/></ProtectedRoute>} />
+              <Route path="/coursecat" element={<ProtectedRoute><Coursecat/></ProtectedRoute>} />
+              <Route path="/recruiter" element={<ProtectedRoute><Home/></ProtectedRoute>} />
+              <Route path="/aboutus" element={<ProtectedRoute><Aboutus/></ProtectedRoute>} />
+              <Route path="/ngoenroll" element={<ProtectedRoute><Ngoenroll/></ProtectedRoute>} />
+              <Route path="/donation" element={<ProtectedRoute><Donation/></ProtectedRoute>} />
+              <Route path="/popup" element={<ProtectedRoute><Popup/></ProtectedRoute>} />
+              <Route path="/sidebarvideo" element={<ProtectedRoute><Sidebarvideo/></ProtectedRoute>} />
+              <Route path="/video" element={<ProtectedRoute><Videos/></ProtectedRoute>} />
+              <Route path="/videos" element={<ProtectedRoute><Videos/></ProtectedRoute>} />
+              <Route path="/login" element={<ProtectedRoute requireAuth={false}><Login/></ProtectedRoute>}/>
+              <Route path="/leaders" element={<ProtectedRoute><Lead/></ProtectedRoute>}/>
+              <Route path="/profile" element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+              <Route path="/banner" element={<ProtectedRoute><Banner/></ProtectedRoute>}/>
+              <Route path="/science" element={<ProtectedRoute><Science/></ProtectedRoute>}/>
+              <Route path="/mathematics" element={<ProtectedRoute><Math/></ProtectedRoute>}/>
+              <Route path="/english" element={<ProtectedRoute><English/></ProtectedRoute>}/>  
   </Routes>
    </div>
    </Router>
+   </FirebaseErrorBoundary>
+   </LanguageProvider>
+   </AuthProvider>
+   </ThemeProvider>
    
   );
 }

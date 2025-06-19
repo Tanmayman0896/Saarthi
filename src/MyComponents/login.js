@@ -2,74 +2,86 @@ import "../App.css";
 import Header from './../MyComponents/Header';
 import { useSpeechSynthesis } from "react-speech-kit";
 import { 
-  getAuth, 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
 } from "firebase/auth"; 
-import app from "../firebase"; 
+import { auth } from "../firebase"; // Import auth directly from firebase.js
 import { useState, useEffect } from "react"; 
 import { LockClosedIcon } from '@heroicons/react/20/solid'
 import { useNavigate } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
 import logo from './../images/bluelogo.png'
  
 function Login() { 
-  const auth = getAuth(app); 
+  // auth is already initialized in firebase.js, no need to call getAuth again
   const { speak } = useSpeechSynthesis()
-  const emailinp = 'Enter your email'
-  const pass = 'Enter the password'
-  const acc = 'Create Account'
-  const signin = 'Sign In'
+  const { signin, signup, currentUser } = useAuth();
+  const navigate = useNavigate();
+  
   const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState(""); 
-  const navigate = useNavigate();
- 
-  const signUp = () => { 
-    createUserWithEmailAndPassword(auth, email, password) 
-      .then((userCredential) => { 
-        // Signed in 
-        const user = userCredential.user; 
-        console.log(user); 
-        
-        alert("Successfully created an account"); 
-        // ... 
-      }) 
-      .catch((error) => { 
-        const errorCode = error.code; 
-        const errorMessage = error.message; 
-        alert(errorCode); 
-        // .. 
-      }); 
-  }; 
+  const [displayName, setDisplayName] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const signIn = () => { 
-    signInWithEmailAndPassword(auth, email, password) 
-      .then((userCredential) => { 
-        // Signed in 
-        const user = userCredential.user; 
-        console.log(user); 
-        alert("You are now signed in"); 
-        
-        // ... 
-      }) 
-      .catch((error) => { 
-        const errorCode = error.code; 
-        const errorMessage = error.message; 
-        alert(errorCode); 
-      }); 
-      
-  }; 
+  // Redirect if already logged in
   useEffect(() => {
-    if (createUserWithEmailAndPassword || signInWithEmailAndPassword) {
+    if (currentUser) {
       navigate("/home");
-    } else {
-      alert("Error!!");
     }
-  }, []);
+  }, [currentUser, navigate]);
+
+  const emailinp = 'Enter your email'
+  const pass = 'Enter the password'
+  const name = 'Enter your full name'
+  const acc = 'Create Account'
+  const signin_text = 'Sign In'
+   const handleSignUp = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      await signup(email, password, displayName);
+      toast.success("Account created successfully!");
+      navigate("/home");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      await signin(email, password);
+      toast.success("Signed in successfully!");
+      navigate("/home");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }  };
   
- 
   return ( 
-    <div className="App"> 
-    <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="App">
+      <Toaster position="top-right" />
+      <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
             <img
@@ -78,18 +90,56 @@ function Login() {
               alt="Saarthi Logo"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-              Sign in to your account
+              {isSignUp ? 'Create your account' : 'Sign in to your account'}
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              And{' '}
-              <a href="/coursecat" className="font-medium text-gray-500 hover:text-gray-900">
-                Get access to the courses
-              </a>
+              {isSignUp ? (
+                <>
+                  Already have an account?{' '}
+                  <button 
+                    type="button"
+                    onClick={() => setIsSignUp(false)}
+                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    Sign in here
+                  </button>
+                </>
+              ) : (
+                <>
+                  Or{' '}
+                  <button 
+                    type="button"
+                    onClick={() => setIsSignUp(true)}
+                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    create a new account
+                  </button>
+                </>
+              )}
             </p>
           </div>
-          <form className="mt-8 space-y-6">
+          <form className="mt-8 space-y-6" onSubmit={isSignUp ? handleSignUp : handleSignIn}>
             <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm">
+            <div className="rounded-md shadow-sm space-y-4">
+              {isSignUp && (
+                <div>
+                  <label className="sr-only">
+                    Full Name
+                  </label>
+                  <input
+                    id="display-name"
+                    name="displayName"
+                    type="text"
+                    onMouseOver={() => speak({ text: name })}
+                    autoComplete="name"
+                    required={isSignUp}
+                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    placeholder="Full Name"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                  />
+                </div>
+              )}
               <div>
                 <label className="sr-only">
                   Email address
@@ -97,12 +147,12 @@ function Login() {
                 <input
                   id="email-address"
                   name="email"
-                  onMouseOver={() => speak({ text: emailinp })}
-                  type={"email"}
+                  onMouseOver={() => speak({ text: emailinp })}                  type="email"
                   autoComplete="email"
                   required
-                  className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="   Email address"
+                  className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Email address"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -114,73 +164,31 @@ function Login() {
                   id="password"
                   name="password"
                   onMouseOver={() => speak({ text: pass })}
-                  type={"password"}
-                  autoComplete="current-password"
-                  required
-                  className="relative block w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="   Password"
+                  type="password"
+                  autoComplete={isSignUp ? "new-password" : "current-password"}
+                  required                  placeholder="Password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
-                </label>
-              </div>
-
-              {/* <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </a>
-              </div> */}
-            </div>
-
             <div>
-              {/* <button
+              <button
                 type="submit"
-                className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onMouseOver={() => speak({ text: acc })}
-                onClick={signUp}
+                disabled={loading}
+                onMouseOver={() => speak({ text: isSignUp ? acc : signin_text })}
+                className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                 </span>
-                Sign in
-              </button> */}
-              <button onMouseOver={() => speak({ text: acc })} className="bg-transparent  hover:bg-blue-500 text-gray-900 font-semibold hover:text-gray-500 py-2 px-4 border border-blue-500  rounded" onClick={signUp}>Create account</button> 
-              <button onMouseOver={() => speak({ text: signin })} className="bg-transparent mt-2 mb-2 ml-2 hover:bg-blue-500 text-gray-900 font-semibold hover:text-gray 500 py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={signIn}>Sign in</button>
-            </div>
-          </form>
+                {loading ? 'Loading...' : (isSignUp ? 'Create Account' : 'Sign In')}
+              </button>
+            </div></form>
         </div>
       </div>
-{/* 
-      <input onMouseOver={() => speak({ text: emailinp })}
-        type={"email"} 
-        className="block p-2.5 mt-2 mb-2 ml-2 w-50 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="please enter your email" 
-        onChange={(e) => setEmail(e.target.value)} 
-      /> 
-      <input onMouseOver={() => speak({ text: pass })}
-        type={"password"} 
-        placeholder="Enter New Password"
-        className="block p-2.5 mt-2 mb-2 ml-2 w-50 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-        onChange={(e) => setPassword(e.target.value)} 
-      /> 
- 
-      <button onMouseOver={() => speak({ text: acc })} className="bg-transparent  hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={signUp}>Create account</button> 
-      <button onMouseOver={() => speak({ text: signin })} className="bg-transparent mt-2 mb-2 ml-2 hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={signIn}>Sign in</button>  */}
-    </div> 
-
-    
+    </div>
   ); 
 } 
  

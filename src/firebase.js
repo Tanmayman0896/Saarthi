@@ -1,23 +1,64 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// Import additional Firebase services that your app uses
+import { getAuth } from "firebase/auth";
+
+// Validate that all required environment variables are present
+const requiredEnvVars = [
+  'REACT_APP_FIREBASE_API_KEY',
+  'REACT_APP_FIREBASE_AUTH_DOMAIN',
+  'REACT_APP_FIREBASE_PROJECT_ID',
+  'REACT_APP_FIREBASE_STORAGE_BUCKET',
+  'REACT_APP_FIREBASE_MESSAGING_SENDER_ID',
+  'REACT_APP_FIREBASE_APP_ID'
+];
+
+// Check for missing environment variables
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  console.error('Missing required Firebase environment variables:', missingVars);
+  console.error('Please check your .env file and ensure all Firebase configuration variables are set.');
+}
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAa_hJ6cq2ZZbtZUI5__6yOkhxe14qP9wE",
-  authDomain: "shiksha-b8390.firebaseapp.com",
-  projectId: "shiksha-b8390",
-  storageBucket: "shiksha-b8390.appspot.com",
-  messagingSenderId: "183113807478",
-  appId: "1:183113807478:web:197666b2474c38bb865157",
-  measurementId: "G-JH8VJ4XFBL"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  // measurementId is optional - only include if you're using Analytics
+  ...(process.env.REACT_APP_FIREBASE_MEASUREMENT_ID && {
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+  })
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+let app;
+let analytics = null;
+let auth = null;
 
+try {
+  app = initializeApp(firebaseConfig);
+  
+  // Initialize Analytics only if measurementId is provided
+  if (process.env.REACT_APP_FIREBASE_MEASUREMENT_ID) {
+    analytics = getAnalytics(app);
+  }
+  
+  // Initialize Authentication
+  auth = getAuth(app);
+  
+  console.log('Firebase initialized successfully');
+} catch (error) {
+  console.error('Error initializing Firebase:', error);
+  throw new Error('Failed to initialize Firebase. Please check your configuration.');
+}
+
+// Export the initialized services
+export { auth, analytics };
 export default app;
