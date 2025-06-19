@@ -1,8 +1,6 @@
 import React from "react";
 import Catalogue from "../MyComponents/Catalogue";
 import SubjectCards from "../MyComponents/SubjectCards";
-import Footer from './../MyPages/Footer';
-import Header from './../MyComponents/Header';
 import { NavLink } from 'react-router-dom';
 import bg from './../images/coursecatbg.png'
 import Banner from './../MyComponents/banner';
@@ -11,7 +9,6 @@ import Banner from './../MyComponents/banner';
 function Coursecat() {
   return (
     <div>
-      <Header/>
       <div>
         <img src={bg} alt="bg" width={"100%"} height="400" class="acc1"></img>
         <div class="position-relative"></div>
@@ -25,7 +22,6 @@ function Coursecat() {
       </div>
       <SubjectCards/>
       {/* <Catalogue /> */}
-      <Footer/>
     </div>
   );
 }

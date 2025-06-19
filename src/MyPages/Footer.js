@@ -3,16 +3,21 @@ import { FaLinkedin,FaFacebookSquare,FaInstagramSquare,FaTwitterSquare, FaGlobe 
 import {Link,NavLink} from "react-router-dom"
 import logo from '.././images/blacklogo.png'
 import logo1 from '.././images/blacklogomirror.png'
+import whitelogo from '.././images/whitelogo.png'
+import whitelogo1 from '.././images/newwhitelogo.png'
 import { useLanguage } from '../contexts/LanguageContext';
 import { useSpeechSynthesis } from 'react-speech-kit';
 import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
   const { currentLanguage, languages, changeLanguage, getCurrentLanguageInfo } = useLanguage();
   const { speak } = useSpeechSynthesis();
   const { isDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   const handleLanguageChange = (languageCode) => {
+    console.log('Footer: Attempting to change language to:', languageCode);
     changeLanguage(languageCode);
     speak({ text: `Language changed to ${languages.find(lang => lang.code === languageCode)?.nativeName}` });
   };
@@ -66,45 +71,44 @@ const Footer = () => {
 //     </div>
 //     </div>
 <>
-<footer className={`footer p-10 ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-black text-white'}`}>
-  <div>
-    <span className="footer-title">Services</span> 
-    <a className="hover:bg-lavender-dark" href='/coursecat'>Courses</a> 
-    <a className="hover:bg-lavender-dark" href='/'>Teaching</a> 
-    <a className="hover:bg-lavender-dark" href='/'>Assessments</a> 
-    <a className="hover:bg-lavender-dark" href='/'>Materials</a>
+<footer className={`footer p-10 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'}`}>  <div>
+    <span className="footer-title">{t('services', 'Services')}</span> 
+    <a className="hover:bg-lavender-dark" href='/coursecat'>{t('courses', 'Courses')}</a> 
+    <a className="hover:bg-lavender-dark" href='/'>{t('teaching', 'Teaching')}</a> 
+    <a className="hover:bg-lavender-dark" href='/'>{t('assessments', 'Assessments')}</a> 
+    <a className="hover:bg-lavender-dark" href='/'>{t('materials', 'Materials')}</a>
   </div> 
   <div>
-    <span className="footer-title">Company</span> 
-    <a className="hover:bg-lavender-dark" href='/aboutus'>About us</a> 
-    <a className="hover:bg-lavender-dark" href=''>Contact</a> 
-    <a className="hover:bg-lavender-dark" href='/popup'>Guide</a> 
+    <span className="footer-title">{t('company', 'Company')}</span> 
+    <a className="hover:bg-lavender-dark" href='/aboutus'>{t('aboutus', 'About us')}</a> 
+    <a className="hover:bg-lavender-dark" href=''>{t('contact', 'Contact')}</a> 
+    <a className="hover:bg-lavender-dark" href='/popup'>{t('guide', 'Guide')}</a> 
   </div> 
   <div>
-    <span className="footer-title">Legal</span> 
-    <a className="hover:bg-lavender-dark" href=''>Terms of use</a> 
-    <a className="hover:bg-lavender-dark" href=''>Privacy policy</a> 
-    <a className="hover:bg-lavender-dark" href=''>Cookie policy</a>
-  </div>
-  <div>
-    <span className="footer-title">Language / भाषा</span>
+    <span className="footer-title">{t('legal', 'Legal')}</span> 
+    <a className="hover:bg-lavender-dark" href=''>{t('terms', 'Terms of use')}</a> 
+    <a className="hover:bg-lavender-dark" href=''>{t('privacy', 'Privacy policy')}</a> 
+    <a className="hover:bg-lavender-dark" href=''>{t('cookies', 'Cookie policy')}</a>
+  </div>  <div>
+    <span className="footer-title">{t('language', 'Language')} / भाषा</span>
+    <div className="text-sm mb-2 text-gray-500 dark:text-gray-400">
+      {t('current', 'Current')}: {getCurrentLanguageInfo()?.nativeName} | {t('active', 'Active')}: {currentLanguage}
+    </div>
     <div className="flex flex-col space-y-2">
       {languages.map((language) => (
         <button
           key={language.code}
           onClick={() => handleLanguageChange(language.code)}
-          onMouseOver={() => speak({ text: `Switch to ${language.nativeName}` })}
-          className={`flex items-center space-x-2 px-3 py-2 rounded-md text-left transition-colors ${
+          onMouseOver={() => speak({ text: `Switch to ${language.nativeName}` })}            className={`flex items-center space-x-2 px-3 py-2 rounded-md text-left transition-colors ${
             currentLanguage === language.code
-              ? 'bg-lavender-dark text-white'
-              : 'hover:bg-gray-700 hover:text-white'
+              ? 'bg-blue-600 text-white'
+              : `hover:bg-gray-700 hover:text-white ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`
           }`}
         >
           <FaGlobe className="w-4 h-4" />
-          <span>{language.nativeName}</span>
-          {currentLanguage === language.code && (
+          <span>{language.nativeName}</span>          {currentLanguage === language.code && (
             <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
-              Active
+              {t('active', 'Active')}
             </span>
           )}
         </button>
@@ -112,11 +116,11 @@ const Footer = () => {
     </div>
   </div>
 </footer>
-<footer className={`footer px-10 py-4 border-t ${isDarkMode ? 'bg-gray-900 text-gray-100 border-gray-700' : 'bg-black text-white border-lavender-dark'}`}>
-  <div className="items-center grid-flow-col">
-    <img className="h-8" src={logo} alt='logo'/>
-    <p>Empowering Abilities,<br/> Unlocking Potential: Education for All</p><img className="h-8" src={logo1} alt='logo mirror'/>
-  </div> 
+<footer className={`footer px-10 py-4 border-t ${isDarkMode ? 'bg-black text-white border-gray-700' : 'bg-white text-gray-900 border-gray-200'}`}>  <div className="items-center grid-flow-col">
+    <img className="h-8" src={isDarkMode ? whitelogo : logo} alt='logo'/>
+    <p>{t('tagline', 'Empowering Abilities,')} <br/> {t('taglineSecond', 'Unlocking Potential: Education for All')}</p>
+    <img className="h-8" src={isDarkMode ? whitelogo1 : logo1} alt='logo mirror'/>
+  </div>
   <div className="md:place-self-center md:justify-self-end">
     <div className="grid grid-flow-col gap-4">
       <a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="fill-current"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg></a> 

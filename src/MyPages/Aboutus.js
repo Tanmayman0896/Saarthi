@@ -1,13 +1,10 @@
 import React from "react";
-import Footer from './../MyPages/Footer';
-import Header from './../MyComponents/Header';
 import About1 from './../MyComponents/About1';
 import bg from './../images/aboutus.png'
 
 function Aboutus() {
   return (
     <div>
-      <Header/>
       <div>
         <img src={bg} width={"100%"} height="600" class="acc1" alt="bg"></img>
         <div class="position-relative"></div>
@@ -16,7 +13,6 @@ function Aboutus() {
         </div>
       </div>
       <About1/>
-      <Footer/>
     </div>
   );
 }

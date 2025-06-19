@@ -1,12 +1,6 @@
 import "../App.css"; 
-import Header from './../MyComponents/Header';
 import { useSpeechSynthesis } from "react-speech-kit";
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-} from "firebase/auth"; 
-import { auth } from "../firebase"; // Import auth directly from firebase.js
-import { useState, useEffect } from "react"; 
+import { useState, useEffect } from "react";
 import { LockClosedIcon } from '@heroicons/react/20/solid'
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";

@@ -1,6 +1,7 @@
 import React from "react";
-import lead from './leaders';
 import { useSpeechSynthesis } from 'react-speech-kit';
+import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 
 const links = [
   { name: 'Open roles', href: '#' },
@@ -33,9 +34,11 @@ const people = [
 
 function About1() {
   const { speak } = useSpeechSynthesis();
+  const { isDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   return (
-    <div className="relative overflow-hidden bg-gray-900 py-35 sm:py-40">
+    <div className={`relative overflow-hidden py-35 sm:py-40 transition-colors duration-300 ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
       <img className="absolute inset-0 object-cover object-right w-full h-full bg-gradient-to-t -z-10 md:object-center" alt="profile" />
       <svg
         viewBox="0 0 1097 845"
@@ -51,21 +54,19 @@ function About1() {
       >
         {/* ... (SVG path definition) */}
       </svg>
-      <div className="px-6 mx-auto max-w-7xl lg:px-8">
-        <div className="max-w-2xl lg:mx-0">
-          <h2 className="text-4xl font-bold tracking-tight text-blue-500 sm:text-6xl">OUR VISION</h2>
-          <p className="mt-6 text-lg leading-8 text-white">
-            Our aim is to provide equal opportunity of Education to everyone
-            irrespective of their disability.
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">        <div className="max-w-2xl lg:mx-0">          <h2 className={`text-4xl font-bold tracking-tight sm:text-6xl ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>{t('ourVision', 'OUR VISION')}</h2>
+          <p className={`mt-6 text-lg leading-8 ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+            {t('ourVisionDescription', 'Our aim is to provide equal opportunity of Education to everyone irrespective of their disability.')}
           </p>
         </div>
         <div className="max-w-2xl mx-auto mt-10 ml-8 lg:mx-0 lg:max-w-none">
-          <div className="grid grid-cols-1 text-base font-semibold leading-7 text-blue-500 gap-y-6 gap-x-8 sm:grid-cols-2 md:flex lg:gap-x-10">
+          <div className={`grid grid-cols-1 text-base font-semibold leading-7 gap-y-6 gap-x-8 sm:grid-cols-2 md:flex lg:gap-x-10 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>
             {links.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onMouseOver={() => speak({ text: link.name })}
+                className={`hover:${isDarkMode ? 'text-blue-300' : 'text-blue-700'}`}
               >
                 {link.name} <span aria-hidden="true">&rarr;</span>
               </a>
@@ -74,8 +75,8 @@ function About1() {
           <dl className="grid grid-cols-1 gap-8 mt-16 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.name} className="flex flex-col-reverse">
-                <dt className="text-base leading-7 text-blue-500">{stat.name}</dt>
-                <dd className="text-2xl font-bold leading-9 tracking-tight text-white">{stat.value}</dd>
+                <dt className={`text-base leading-7 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}>{stat.name}</dt>
+                <dd className={`text-2xl font-bold leading-9 tracking-tight ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>{stat.value}</dd>
               </div>
             ))}
           </dl>
@@ -85,10 +86,9 @@ function About1() {
       {/* Leadership */}
 
       <div className="py-24 mt-40 bg-gradient-to-t sm:py-32" id="leadership">
-        <div className="grid px-6 mx-auto max-w-7xl gap-y-20 gap-x-8 lg:px-8 xl:grid-cols-3">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-300 sm:text-4xl">Meet our leadership</h2>
-            <p className="mt-6 text-lg leading-8 text-gray-300">
+        <div className="grid px-6 mx-auto max-w-7xl gap-y-20 gap-x-8 lg:px-8 xl:grid-cols-3">          <div className="max-w-2xl">
+            <h2 className={`text-3xl font-bold tracking-tight sm:text-4xl ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Meet our leadership</h2>
+            <p className={`mt-6 text-lg leading-8 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               {/* Libero fames augue nisl porttitor nisi, quis. Id ac elit odio vitae elementum enim vitae ullamcorper suspendisse. */}
             </p>
           </div>

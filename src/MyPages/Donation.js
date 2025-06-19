@@ -1,11 +1,8 @@
 import React from "react";
-import Footer from './../MyPages/Footer';
-import Header from './../MyComponents/Header';
 
 function Donation() {
   return (
     <div>
-      <Header/>
       <h3 class="text-black d-flex justify-content-center pt-5">
         A Big Step to Open New Doors
       </h3>
@@ -54,15 +51,13 @@ function Donation() {
             <form>
               <input type="text"></input>
             </form>
-            <div class="p-5">
-              <button type="button" class="btn btn-dark">
+            <div class="p-5">              <button type="button" class="btn btn-dark">
                 Donate
               </button>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
     </div>
   );
 }

@@ -3,9 +3,11 @@ import img_x from './../images/contact.jpg'
 // import React, { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import feedimg from './../images/feedback.png'
+import { useTheme } from '../contexts/ThemeContext';
 
 const Contact = () => {
   const form = useRef();
+  const { isDarkMode } = useTheme();
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -19,14 +21,13 @@ const Contact = () => {
     }
   return (
 <form ref={form} onSubmit={sendEmail}>
-        <section class="text-gray-600 body-font relative">
-    <div class="container px-5 py-4 mx-auto flex sm:flex-nowrap flex-wrap">
-        <div class=" lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 mt-2 md:mb-0">
-            <img class=" object-cover object-center rounded" alt="hero" src={feedimg}></img>
+        <section className={`body-font relative transition-colors duration-300 ${isDarkMode ? 'text-gray-100 bg-gray-900' : 'text-gray-600 bg-white'}`}>    <div className="container px-5 py-4 mx-auto flex sm:flex-nowrap flex-wrap">
+        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 mt-2 md:mb-0">
+            <img className="object-cover object-center rounded" alt="hero" src={feedimg}></img>
         </div>
-    <div class=" lg:w-1/2 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8  md:mt-0">
-      <h2 class="text-black text-2xl text-center mb-1 font-bold title-font">Feedback Form</h2>
-      <p class="leading-relaxed text-center  text-black"></p>
+    <div className={`lg:w-1/2 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 md:mt-0 transition-colors duration-300 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+      <h2 className={`text-2xl text-center mb-1 font-bold title-font ${isDarkMode ? 'text-white' : 'text-black'}`}>Feedback Form</h2>
+      <p className={`leading-relaxed text-center ${isDarkMode ? 'text-gray-300' : 'text-black'}`}></p>
       <div class="relative mb-1">
         <label for="name" class="leading-7 text-center text-sm text-black">Name</label>
         <input type="text" id="name" name="name" class="w-full bg-gray-200 rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></input>
