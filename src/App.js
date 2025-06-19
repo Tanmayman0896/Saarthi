@@ -33,6 +33,7 @@ import Profile from './MyPages/profile'
 import Science from './MyPages/Science'
 import Math from './MyPages/mathematics'
 import English from './MyPages/English'
+import { Toaster } from 'react-hot-toast';
 import vol from "./images/volume.png"
 import VoiceNav from "./MyComponents/VoiceNav"
 import FirebaseErrorBoundary from './components/FirebaseErrorBoundary';
@@ -44,11 +45,15 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { inject } from '@vercel/analytics';
 import AdminPanel from './MyPages/AdminPanel';
 import AdminTest from './MyPages/AdminTest';
+import DiagnosticPage from './components/DiagnosticPage';
+import BlankScreenFix from './components/BlankScreenFix';
 inject();
 
 function AppContent() {
+  console.log('🔧 DEBUG: AppContent is rendering...');
   const location = useLocation();
   const isLoginPage = location.pathname === '/' || location.pathname === '/login';
+  console.log('🔧 DEBUG: Current location:', location.pathname, 'isLoginPage:', isLoginPage);
   
   return (
     <div className='App'>
@@ -72,16 +77,45 @@ function AppContent() {
         <Route path="/banner" element={<ProtectedRoute><Banner/></ProtectedRoute>}/>
         <Route path="/science" element={<ProtectedRoute><Science/></ProtectedRoute>}/>
         <Route path="/mathematics" element={<ProtectedRoute><Math/></ProtectedRoute>}/>
-        <Route path="/english" element={<ProtectedRoute><English/></ProtectedRoute>}/>  
-        <Route path="/admin" element={<ProtectedRouteDebug adminOnly={true}><AdminPanel/></ProtectedRouteDebug>} />
+        <Route path="/english" element={<ProtectedRoute><English/></ProtectedRoute>}/>        <Route path="/admin" element={<ProtectedRouteDebug adminOnly={true}><AdminPanel/></ProtectedRouteDebug>} />
         <Route path="/admin-test" element={<ProtectedRoute><AdminTest/></ProtectedRoute>} />
-      </Routes>
-      {!isLoginPage && <Footer />}
+        <Route path="/diagnostic" element={<DiagnosticPage/>} />
+        <Route path="/fix" element={<BlankScreenFix/>} />
+      </Routes>      {!isLoginPage && <Footer />}
+      
+      {/* Toast notifications */}
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 4000,
+            theme: {
+              primary: '#4aed88',
+            },
+          },
+          error: {
+            duration: 4000,
+            theme: {
+              primary: '#ff4b4b',
+            },
+          },
+        }}
+      />
     </div>
   );
 }
 
 function App() {
+  console.log('🔧 DEBUG: Main App function starting...');
   
   const commands = [
     {
@@ -136,22 +170,24 @@ function App() {
     setIsListening(false);
     microphoneRef.current.classList.remove("listening");
     SpeechRecognition.stopListening();
-  };
-  const handleReset = () => {
+  };  const handleReset = () => {
     stopHandle();
-    resetTranscript();
-  };  return (
-   <ThemeProvider>
-     <AuthProvider>
-       <LanguageProvider>         <FirebaseErrorBoundary>
-           <Router>
-             <AppContent />
-           </Router>
-         </FirebaseErrorBoundary>
-   </LanguageProvider>
-   </AuthProvider>
-   </ThemeProvider>
-   
+    resetTranscript();  };
+  
+  console.log('🔧 DEBUG: App about to return providers...');
+  
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <LanguageProvider>
+          <FirebaseErrorBoundary>
+            <Router>
+              <AppContent />
+            </Router>
+          </FirebaseErrorBoundary>
+        </LanguageProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

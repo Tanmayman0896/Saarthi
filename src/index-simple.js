@@ -1,10 +1,8 @@
 import { ColorModeScript, ChakraProvider } from '@chakra-ui/react';
 import React, { StrictMode, Suspense } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import App from './App';
-import "./i18n.js";
-
-console.log('🔧 DEBUG: Starting main Saarthi app...');
+import SimpleApp from './SimpleApp';
+// Temporarily using SimpleApp to test basic React functionality
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -12,11 +10,9 @@ root.render(
   <StrictMode>
     <ColorModeScript />
     <ChakraProvider>
-      <Suspense fallback={<div style={{padding: '20px', textAlign: 'center', fontSize: '18px'}}>Loading Saarthi...</div>}>
-        <App />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SimpleApp />
       </Suspense>
     </ChakraProvider>
   </StrictMode>
 );
-
-console.log('🔧 DEBUG: React render initiated...');

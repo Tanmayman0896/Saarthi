@@ -3,8 +3,8 @@ import emailjs from '@emailjs/browser';
 import feedimg from './../images/feedback.png'
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from 'react-i18next';
-import toast from 'react-hot-toast';
-// import { feedbackService } from '../services/feedbackService'; // Uncomment if you want to store feedback in Firestore
+// Temporarily disabled toast for debugging
+// import toast from 'react-hot-toast';
 
 const Contact = () => {
   const form = useRef();
@@ -27,25 +27,26 @@ const Contact = () => {
 
   const validateForm = () => {
     if (!formData.name.trim()) {
-      toast.error(t('nameRequired', 'Name is required'));
+      alert(t('nameRequired', 'Name is required'));
       return false;
     }
     if (!formData.email.trim()) {
-      toast.error(t('emailRequired', 'Email is required'));
+      alert(t('emailRequired', 'Email is required'));
       return false;
     }
     if (!formData.message.trim()) {
-      toast.error(t('messageRequired', 'Feedback message is required'));
+      alert(t('messageRequired', 'Feedback message is required'));
       return false;
     }
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      toast.error(t('invalidEmail', 'Please enter a valid email address'));
+      alert(t('invalidEmail', 'Please enter a valid email address'));
       return false;
     }
     return true;
   };
+
   const sendEmail = async (e) => {
     e.preventDefault();
     
@@ -54,9 +55,6 @@ const Contact = () => {
     }
 
     setIsSubmitting(true);
-    
-    // Show loading toast
-    const loadingToast = toast.loading(t('submittingFeedback', 'Submitting your feedback...'));
 
     try {
       // Send email via EmailJS
@@ -69,37 +67,8 @@ const Contact = () => {
       
       console.log('Feedback sent successfully via email:', result.text);
       
-      // Optionally save to Firestore (uncomment the lines below if you want to store feedback in database)
-      /*
-      try {
-        await feedbackService.saveFeedback({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          source: 'website_contact_form'
-        });
-        console.log('Feedback also saved to Firestore');
-      } catch (firestoreError) {
-        console.error('Failed to save to Firestore, but email sent successfully:', firestoreError);
-      }
-      */
-      
-      // Hide loading toast
-      toast.dismiss(loadingToast);
-      
-      // Show success popup
-      toast.success(
-        t('feedbackReceived', 'Feedback received! Thank you for your valuable input.'),
-        {
-          duration: 4000,
-          icon: '✅',
-          style: {
-            background: isDarkMode ? '#374151' : '#ffffff',
-            color: isDarkMode ? '#ffffff' : '#000000',
-            border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
-          },
-        }
-      );
+      // Show success popup using alert for now
+      alert(t('feedbackReceived', 'Feedback received! Thank you for your valuable input.'));
       
       // Reset form
       setFormData({
@@ -114,26 +83,14 @@ const Contact = () => {
     } catch (error) {
       console.error('Error sending feedback:', error.text);
       
-      // Hide loading toast
-      toast.dismiss(loadingToast);
-      
-      // Show error toast
-      toast.error(
-        t('feedbackError', 'Failed to send feedback. Please try again later.'),
-        {
-          duration: 4000,
-          icon: '❌',
-          style: {
-            background: isDarkMode ? '#374151' : '#ffffff',
-            color: isDarkMode ? '#ffffff' : '#000000',
-            border: `1px solid ${isDarkMode ? '#4B5563' : '#E5E7EB'}`,
-          },
-        }
-      );
+      // Show error alert
+      alert(t('feedbackError', 'Failed to send feedback. Please try again later.'));
     } finally {
       setIsSubmitting(false);
     }
-  };return (
+  };
+
+  return (
     <form ref={form} onSubmit={sendEmail}>
       <section className={`body-font relative transition-colors duration-300 ${isDarkMode ? 'text-gray-100 bg-gray-900' : 'text-gray-600 bg-white'}`}>
         <div className="container px-5 py-4 mx-auto flex sm:flex-nowrap flex-wrap">
