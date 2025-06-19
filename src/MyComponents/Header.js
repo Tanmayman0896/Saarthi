@@ -60,6 +60,9 @@ export default function Navbar({ fixed }) {
   const profile = "Profile menu.";
   const themeToggle = isDarkMode ? "Switch to light mode" : "Switch to dark mode";
 
+  // Check if current user is admin
+  const isAdmin = currentUser?.email === process.env.REACT_APP_ADMIN_EMAIL;
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -72,7 +75,11 @@ export default function Navbar({ fixed }) {
 
   const handleProfile = () => {
     navigate("/profile");
-  };  return (
+  };
+
+  const handleAdmin = () => {
+    navigate("/admin");
+  };return (
     <>
       <Toaster position="top-right" />      <Disclosure as="nav" className="bg-white dark:bg-black relative z-40 border-b border-gray-200 dark:border-gray-700">
         {({ open }) => (
@@ -164,6 +171,17 @@ export default function Navbar({ fixed }) {
                               />
                             )}
                           </Menu.Item>
+                          {isAdmin && (
+                            <Menu.Item>
+                              {({ active }) => (
+                                <MenuItem
+                                  text={t('admin', 'Admin Panel')}
+                                  href="#"
+                                  onClick={handleAdmin}
+                                />
+                              )}
+                            </Menu.Item>
+                          )}
                           <Menu.Item>
                             {({ active }) => (
                               <button

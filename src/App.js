@@ -37,10 +37,13 @@ import vol from "./images/volume.png"
 import VoiceNav from "./MyComponents/VoiceNav"
 import FirebaseErrorBoundary from './components/FirebaseErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRouteDebug from './components/ProtectedRouteDebug';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { inject } from '@vercel/analytics';
+import AdminPanel from './MyPages/AdminPanel';
+import AdminTest from './MyPages/AdminTest';
 inject();
 
 function AppContent() {
@@ -70,6 +73,8 @@ function AppContent() {
         <Route path="/science" element={<ProtectedRoute><Science/></ProtectedRoute>}/>
         <Route path="/mathematics" element={<ProtectedRoute><Math/></ProtectedRoute>}/>
         <Route path="/english" element={<ProtectedRoute><English/></ProtectedRoute>}/>  
+        <Route path="/admin" element={<ProtectedRouteDebug adminOnly={true}><AdminPanel/></ProtectedRouteDebug>} />
+        <Route path="/admin-test" element={<ProtectedRoute><AdminTest/></ProtectedRoute>} />
       </Routes>
       {!isLoginPage && <Footer />}
     </div>

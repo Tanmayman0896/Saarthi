@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // Import additional Firebase services that your app uses
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Validate that all required environment variables are present
 const requiredEnvVars = [
@@ -41,6 +42,7 @@ const firebaseConfig = {
 let app;
 let analytics = null;
 let auth = null;
+let db = null;
 
 try {
   app = initializeApp(firebaseConfig);
@@ -53,6 +55,9 @@ try {
   // Initialize Authentication
   auth = getAuth(app);
   
+  // Initialize Firestore
+  db = getFirestore(app);
+  
   console.log('Firebase initialized successfully');
 } catch (error) {
   console.error('Error initializing Firebase:', error);
@@ -60,5 +65,5 @@ try {
 }
 
 // Export the initialized services
-export { auth, analytics };
+export { auth, analytics, db };
 export default app;

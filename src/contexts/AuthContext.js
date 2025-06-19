@@ -7,6 +7,7 @@ import {
   signOut,
   updateProfile
 } from 'firebase/auth';
+import { userService } from '../services/userService';
 
 const AuthContext = createContext();
 
@@ -22,7 +23,6 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   // Sign up function
   const signup = async (email, password, displayName = '') => {
     try {
@@ -32,6 +32,13 @@ export const AuthProvider = ({ children }) => {
       // Update user profile with display name if provided
       if (displayName && result.user) {
         await updateProfile(result.user, {
+          displayName: displayName
+        });
+      }
+      
+      // Create user profile in Firestore
+      if (result.user) {
+        await userService.createUserProfile(result.user, {
           displayName: displayName
         });
       }
@@ -48,6 +55,12 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const result = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Update last login time
+      if (result.user) {
+        await userService.updateLastLogin(result.user.uid);
+      }
+      
       return result;
     } catch (error) {
       setError(error.message);
@@ -80,11 +93,20 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
-
   // Listen for authentication state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
+      
+      // Create/update user profile when user signs in
+      if (user) {
+        try {
+          await userService.createUserProfile(user);
+        } catch (error) {
+          console.error('Error creating/updating user profile:', error);
+        }
+      }
+      
       setLoading(false);
     });
 

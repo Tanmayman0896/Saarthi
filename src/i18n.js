@@ -47,11 +47,11 @@ const resources = {  en: {
       "signout": "Sign out",
       "signin": "Sign In",
       "current": "Current",
-      "active": "Active",
-      "tagline": "Empowering Abilities,",
+      "active": "Active",      "tagline": "Empowering Abilities,",
       "taglineSecond": "Unlocking Potential: Education for All",
       "hindi": "Hindi",
       "subjectsTaught": "Subjects Taught",
+      "admin": "Admin Panel",
       "profile": "Profile",
       "signout": "Sign out",
       "signin": "Sign In",
@@ -104,11 +104,11 @@ const resources = {  en: {
       "signout": "साइन आउट",
       "signin": "साइन इन",
       "current": "वर्तमान",
-      "active": "सक्रिय",
-      "tagline": "क्षमताओं को सशक्त बनाना,",
+      "active": "सक्रिय",      "tagline": "क्षमताओं को सशक्त बनाना,",
       "taglineSecond": "संभावनाओं को अनलॉक करना: सभी के लिए शिक्षा",
       "hindi": "हिंदी",
-      "subjectsTaught": "पढ़ाए गए विषय"
+      "subjectsTaught": "पढ़ाए गए विषय",
+      "admin": "एडमिन पैनल"
     }
   },mr: {
     default: {
@@ -154,11 +154,11 @@ const resources = {  en: {
       "signout": "साइन आउट",
       "signin": "साइन इन", 
       "current": "वर्तमान",
-      "active": "सक्रिय",
-      "tagline": "क्षमता सशक्त करणे,",
+      "active": "सक्रिय",      "tagline": "क्षमता सशक्त करणे,",
       "taglineSecond": "संभाव्यता अनलॉक करणे: सर्वांसाठी शिक्षण",
       "hindi": "हिंदी",
-      "subjectsTaught": "शिकवलेले विषय"
+      "subjectsTaught": "शिकवलेले विषय",
+      "admin": "एडमिन पॅनेल"
     }
   }
 };
